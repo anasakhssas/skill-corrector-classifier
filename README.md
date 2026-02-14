@@ -1,251 +1,120 @@
+---
+title: Skill Corrector & Classifier
+emoji: 🎯
+colorFrom: green
+colorTo: blue
+sdk: gradio
+sdk_version: 6.0.0
+app_file: app.py
+pinned: false
+license: mit
+---
+
 # 🎯 Skill Corrector & Classifier
 
-A Gradio-based web application powered by AI that normalizes, corrects, and classifies professional skills using Large Language Models (LLMs). Supports both French and English skills.
+Une application web alimentée par l'IA qui corrige, normalise et classifie les compétences professionnelles en utilisant des LLM (Large Language Models). Supporte le français et l'anglais.
 
-## What It Does
+## 🌟 Fonctionnalités
 
-The app uses AI (LLM) to intelligently analyze skills:
+- 🤖 **Classification IA** - Utilise Groq (Llama 3.3 70B) pour une analyse intelligente
+- 🔧 **Correction automatique** - "travail d'equipe" → "Travail d'équipe"
+- 🎯 **Catégorisation précise** - Classifie en 9 catégories de recrutement
+- 🆓 **Gratuit** - Utilise l'API gratuite de Groq
+- ⚡ **Rapide** - Réponses en temps réel
+- 🌍 **Bilingue** - Français et anglais
 
-1. **Normalizes** the input (handles typos, accents, case variations)
-2. **Corrects** the skill using AI understanding (not just string matching)
-3. **Classifies** the skill into categories:
-   - Soft skill
-   - Hard skill
-   - Tool
-   - Framework
-   - Programming language
-   - Domain knowledge
-   - Other
+## 📋 Catégories
 
-4. **Returns** a JSON response with:
-   - Original input
-   - Normalized form
-   - Canonical skill name (AI-corrected)
-   - Category
-   - Confidence score (0-100)
-   - Analysis note
+- 🗣️ **Langues** - French, English, Spanish, etc.
+- 💼 **Compétences comportementales** - Leadership, Communication, Teamwork, etc.
+- 🔨 **Compétences techniques** - Data Analysis, Project Management, etc.
+- 🛠️ **Logiciels & Outils** - Excel, Photoshop, Git, Docker, etc.
+- 💻 **Langages de programmation** - Python, Java, JavaScript, etc.
+- 📦 **Frameworks & Bibliothèques** - React, Django, Spring Boot, etc.
+- 🎓 **Domaines d'expertise** - Machine Learning, Marketing, Finance, etc.
+- 🏆 **Certifications** - PMP, AWS Certified, SCRUM Master, etc.
+- ❓ **Autre** - Autres compétences
 
-## ✨ Features
+## 🎮 Utilisation
 
-- 🤖 **AI-Powered Classification** - Uses LLM for intelligent skill analysis
-- 🆓 **Free API Options** - Groq and Hugging Face free tiers supported
-- 🌍 **Bilingual** - Supports French and English
-- 🔧 **Handles Typos** - "machien lerning" → "Machine Learning"
-- 🎨 **Accent-Aware** - "travail d'equipe" → "Travail d'équipe"
-- ⚡ **Simple Interface** - Just enter a skill and get instant results
+1. **Entrez une compétence** dans le champ de texte (par ex: "machien lerning", "travail d'equipe")
+2. **Cliquez sur "Classifier"** ou appuyez sur Entrée
+3. **Obtenez les résultats** avec :
+   - ✅ Nom corrigé de la compétence
+   - 📂 Catégorie identifiée
+   - 🎯 Score de confiance (%)
+   - _(Indication de correction si applicable)_
 
-## 🚀 Quick Start
+## 🔧 Configuration requise
 
-### 1. Get Your Free API Key
+Cette application nécessite une clé API Groq. Pour utiliser l'app :
 
-Choose one of these providers:
+1. **Obtenez une clé API gratuite** sur [console.groq.com/keys](https://console.groq.com/keys)
+2. **L'administrateur doit configurer** `LLM_API_KEY` dans les Secrets du Space
 
-#### Option A: Groq (Recommended - Fastest)
+⚠️ **Note aux utilisateurs:** Si l'app affiche "❌ API key non configurée", l'administrateur du Space doit ajouter la clé API dans les Settings.
 
-1. Go to https://console.groq.com/keys
-2. Sign up for a free account
-3. Create a new API key
-4. Copy the key
+## 🚀 Déploiement
 
-**Why Groq?**
-- ⚡ Ultra-fast inference (Llama 3.3 70B)
-- 🆓 Generous free tier
-- 🎯 High accuracy
+Pour déployer votre propre instance :
 
-#### Option B: Hugging Face
+1. **Fork ou clone** ce Space
+2. Allez dans **Settings → Variables and secrets**
+3. Ajoutez un nouveau secret :
+   - **Name:** `LLM_API_KEY`
+   - **Value:** Votre clé API Groq (commence par `gsk_`)
+4. **Redémarrez** le Space
 
-1. Go to https://huggingface.co/settings/tokens
-2. Sign up for a free account
-3. Create a new token (Read access)
-4. Copy the token
+L'application démarrera automatiquement !
 
-### 2. Configure Your API Key
+## 💡 Exemples
 
-Edit [app.py](app.py) and replace the placeholder:
-
-```python
-# Line 9-10 in app.py
-API_KEY = os.getenv("LLM_API_KEY", "VOTRE_API_KEY_ICI")  # Remplacez par votre clé
-PROVIDER = "groq"  # Options: "groq" ou "huggingface"
+### Exemple 1: Correction d'accent
+**Entrée:** `travail d'equipe`  
+**Sortie:**
+```
+✅ Travail d'équipe
+(Corrigé depuis : travail d'equipe)
+📂 Catégorie : Compétences comportementales
+🎯 Confiance : 100%
 ```
 
-**Method 1: Direct in code** (simple)
-```python
-API_KEY = "gsk_your_actual_api_key_here"
-PROVIDER = "groq"
+### Exemple 2: Correction de faute de frappe
+**Entrée:** `machien lerning`  
+**Sortie:**
+```
+✅ Machine Learning
+(Corrigé depuis : machien lerning)
+📂 Catégorie : Domaines d'expertise
+🎯 Confiance : 95%
 ```
 
-**Method 2: Environment variable** (recommended for production)
-```bash
-# Windows PowerShell
-$env:LLM_API_KEY = "gsk_your_actual_api_key_here"
-
-# Linux/Mac
-export LLM_API_KEY="gsk_your_actual_api_key_here"
+### Exemple 3: Classification simple
+**Entrée:** `Python`  
+**Sortie:**
+```
+✅ Python
+📂 Catégorie : Langages de programmation
+🎯 Confiance : 100%
 ```
 
-### 3. Install and Run
+## 🛠️ Stack Technique
 
-```bash
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the app
-python app.py
-```
-
-The app will launch at `http://localhost:7860`
-
-## 📦 Deploy on Hugging Face Spaces
-
-### Option A: Web Upload
-
-1. **Create a new Space** on [Hugging Face](https://huggingface.co/spaces)
-2. **Select SDK:** Gradio
-3. **Upload files:**
-   - `app.py`
-   - `requirements.txt`
-   - `README.md`
-4. **Add Secret:**
-   - Go to Space Settings → Variables and secrets
-   - Add `LLM_API_KEY` with your API key value
-   - Restart the space
-
-### Option B: Git Push
-
-```bash
-git clone https://huggingface.co/spaces/<your-username>/<space-name>
-cd <space-name>
-
-# Copy your files
-cp /path/to/app.py .
-cp /path/to/requirements.txt .
-cp /path/to/README.md .
-
-git add .
-git commit -m "Deploy skill classifier"
-git push
-```
-
-Then add your API key as a **Secret** in Space Settings.
-
-Your app will be available at:
-`https://huggingface.co/spaces/<your-username>/<space-name>`
-
-## 🎮 How to Use
-
-1. Open the app in your browser
-2. **Type a skill** (e.g., "machien lerning", "travail d'équipe")
-3. **Click "Analyze Skill"** or press Enter
-4. **Get instant results** with corrected name, category, and confidence
-
-### Example Results
-
-**Input:** `machien lerning`
-```json
-{
-  "input": "machien lerning",
-  "normalized": "machien lerning",
-  "canonical": "Machine Learning",
-  "category": "domain knowledge",
-  "confidence": 92,
-  "note": "Classified by Groq (Llama 3.3 70B)"
-}
-```
-
-**Input:** `travail d'equipe`
-```json
-{
-  "input": "travail d'equipe",
-  "normalized": "travail d'equipe",
-  "canonical": "Travail d'équipe",
-  "category": "soft skill",
-  "confidence": 95,
-  "note": "Classified by Groq (Llama 3.3 70B)"
-}
-```
-
-## 🔧 Configuration
-
-In [app.py](app.py), you can customize:
-
-**Lines 9-10: API Configuration**
-```python
-API_KEY = os.getenv("LLM_API_KEY", "YOUR_KEY_HERE")
-PROVIDER = "groq"  # or "huggingface"
-```
-
-**Lines 12-19: Skill Categories**
-```python
-CATEGORIES = [
-    "soft skill",
-    "hard skill",
-    "tool",
-    "framework",
-    "programming language",
-    "domain knowledge",
-    "other"
-]
-```
-
-**Model parameters** (in `call_groq_api` or `call_huggingface_api`):
-- `temperature`: 0.3 (lower = more consistent)
-- `max_tokens`: 500 (response length)
-
-## 🛠️ Tech Stack
-
-- **Gradio** - Web interface
-- **Requests** - HTTP API calls
-- **Unidecode** - Accent normalization
-- **Groq API** - Fast LLM inference (Llama 3.3 70B)
-- **Hugging Face** - Alternative LLM provider (Mistral 7B)
-- Python 3.8+
-
-## 🔜 Future Enhancements
-
-- [ ] Batch processing (analyze multiple skills at once)
-- [ ] Export results to CSV/JSON
-- [ ] Analytics dashboard
-- [ ] Custom categories
-- [ ] REST API endpoint
-- [ ] Support for more LLM providers
-
-## 🆘 Troubleshooting
-
-### "API key not configured"
-→ Edit [app.py](app.py) line 9 and add your API key.
-
-### "API Error: 401"
-→ Invalid API key. Check that you copied it correctly.
-
-### "API Error: 429"
-→ Rate limit exceeded. Wait a moment or upgrade your API plan.
-
-### "Connection timeout"
-→ Check your internet connection or try again.
-
-### JSON parsing errors
-→ The LLM response wasn't in the expected format. Try again.
-
-## 📝 Database (Optional)
-
-The `skills_db.json` file is **not required** for the LLM version - it's kept for reference only. The LLM handles classification intelligently without needing a predefined database.
+- **Gradio 6.0** - Interface web
+- **Groq API** - LLM inference (Llama 3.3 70B)
+- **Python 3.8+**
+- **Librairies:** requests, unidecode, python-dotenv
 
 ## 📝 License
 
-MIT
+MIT License - Libre d'utilisation et de modification
 
-## 🤝 Contributing
+## 🤝 Contribution
 
-Contributions are welcome! Feel free to:
-- Report bugs
-- Suggest features
-- Add support for more LLM providers
-- Improve prompts for better accuracy
-
-## 📧 Contact
-
-For questions or support, please open an issue on GitHub.
+Les contributions sont les bienvenues ! N'hésitez pas à :
+- Signaler des bugs
+- Suggérer des fonctionnalités
+- Améliorer les prompts pour une meilleure précision
 
 ---
 

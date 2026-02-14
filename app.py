@@ -71,7 +71,12 @@ def call_groq_api(skill_input):
 Skill to classify: "{skill_input}"
 
 Instructions:
-1. Correct any typos or formatting issues
+1. **CORRECT** any typos, spelling errors, missing accents (especially in French), and formatting issues
+   - Fix missing accents: "travail d'equipe" → "Travail d'équipe"
+   - Fix typos: "machien lerning" → "Machine Learning"
+   - Standardize capitalization
+   - Fix spacing and punctuation
+   
 2. Classify it into ONE of these categories:
    - Langues (French, English, Spanish, etc.)
    - Compétences comportementales (Leadership, Communication, Teamwork, etc.)
@@ -93,10 +98,11 @@ Respond ONLY with a valid JSON object:
 }}
 
 Examples:
+- Input: "travail d'equipe" → {{"canonical": "Travail d'équipe", "category": "Compétences comportementales", "confidence": 100}}
 - Input: "anglais" → {{"canonical": "Anglais", "category": "Langues", "confidence": 100}}
-- Input: "teamwork" → {{"canonical": "Teamwork", "category": "Compétences comportementales", "confidence": 100}}
 - Input: "machien lerning" → {{"canonical": "Machine Learning", "category": "Domaines d'expertise", "confidence": 90}}
 - Input: "python" → {{"canonical": "Python", "category": "Langages de programmation", "confidence": 100}}
+- Input: "gestion de projet" → {{"canonical": "Gestion de projet", "category": "Compétences techniques", "confidence": 100}}
 
 Now classify: "{skill_input}"
 """
@@ -221,12 +227,28 @@ def process_skill(skill_input):
     if "error" in llm_result:
         return f"❌ Erreur: {llm_result['error']}"
     
-    # Return formatted response
+    # Return formatted response with correction
     category = llm_result.get("category", "Autre")
     canonical = llm_result.get("canonical", skill_input)
     confidence = llm_result.get("confidence", 0)
     
-    return f"**{canonical}**\n\n📂 Catégorie : **{category}**\n🎯 Confiance : {confidence}%"
+    # Show if there was a correction
+    input_lower = skill_input.strip().lower()
+    canonical_lower = canonical.lower()
+    
+    if input_lower != canonical_lower:
+        # There was a correction
+        result = f"✅ **{canonical}**\n\n"
+        result += f"_(Corrigé depuis : {skill_input})_\n\n"
+        result += f"📂 Catégorie : **{category}**\n"
+        result += f"🎯 Confiance : {confidence}%"
+    else:
+        # No correction needed
+        result = f"✅ **{canonical}**\n\n"
+        result += f"📂 Catégorie : **{category}**\n"
+        result += f"🎯 Confiance : {confidence}%"
+    
+    return result
 
 # Create Gradio interface
 def create_interface():
@@ -270,12 +292,13 @@ def create_interface():
     .output-field textarea {
         border: 2px solid #e0e0e0 !important;
         border-radius: 12px !important;
-        padding: 16px 20px !important;
-        font-size: 18px !important;
-        font-weight: 600 !important;
-        text-align: center !important;
-        color: #10a37f !important;
-        background: #f9f9f9 !important;
+        padding: 20px 24px !important;
+        font-size: 16px !important;
+        line-height: 1.6 !important;
+        text-align: left !important;
+        color: #202124 !important;
+        background: #f9fafb !important;
+        min-height: 140px !important;
     }
     
     /* Button */
@@ -320,12 +343,9 @@ def create_interface():
         # Submit button
         submit_btn = gr.Button("Classifier")
         
-        # Output
-        output = gr.Textbox(
-            label="",
-            show_label=False,
-            interactive=False,
-            lines=3,
+        # Output (using Markdown for better formatting)
+        output = gr.Markdown(
+            value="",
             elem_classes="output-field"
         )
         
