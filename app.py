@@ -14,13 +14,15 @@ API_KEY = os.getenv("LLM_API_KEY")
 PROVIDER = "groq"  # Options: "groq" ou "huggingface"
 
 CATEGORIES = [
-    "soft skill",
-    "hard skill", 
-    "tool",
-    "framework",
-    "programming language",
-    "domain knowledge",
-    "other"
+    "Langues",                          # French, English, Spanish, etc.
+    "Compétences comportementales",     # Leadership, Communication, Teamwork, etc.
+    "Compétences techniques",           # Data Analysis, Project Management, etc.
+    "Logiciels & Outils",               # Excel, Photoshop, Git, Docker, etc.
+    "Langages de programmation",        # Python, Java, JavaScript, etc.
+    "Frameworks & Bibliothèques",       # React, Django, Spring Boot, etc.
+    "Domaines d'expertise",             # Machine Learning, Marketing, Finance, etc.
+    "Certifications",                   # PMP, AWS Certified, SCRUM Master, etc.
+    "Autre"
 ]
 
 # Available LLM providers
@@ -64,25 +66,37 @@ def normalize_skill(text):
 def call_groq_api(skill_input):
     """Call Groq API for skill classification."""
     
-    prompt = f"""You are a professional skills classifier. Analyze the following skill and provide a structured response.
+    prompt = f"""You are a professional recruiter skills classifier for CV/Resume analysis. Analyze the following skill and classify it.
 
-Skill: "{skill_input}"
+Skill to classify: "{skill_input}"
 
 Instructions:
-1. Normalize the skill (correct typos, standardize format, fix accents)
-2. Classify it into ONE of these categories: {', '.join(CATEGORIES)}
+1. Correct any typos or formatting issues
+2. Classify it into ONE of these categories:
+   - Langues (French, English, Spanish, etc.)
+   - Compétences comportementales (Leadership, Communication, Teamwork, etc.)
+   - Compétences techniques (Data Analysis, Project Management, etc.)
+   - Logiciels & Outils (Excel, Photoshop, Git, Docker, etc.)
+   - Langages de programmation (Python, Java, JavaScript, etc.)
+   - Frameworks & Bibliothèques (React, Django, Spring Boot, etc.)
+   - Domaines d'expertise (Machine Learning, Marketing, Finance, etc.)
+   - Certifications (PMP, AWS Certified, SCRUM Master, etc.)
+   - Autre (if none of the above fit)
+
 3. Provide a confidence score (0-100)
 
-Respond ONLY with a valid JSON object in this exact format:
+Respond ONLY with a valid JSON object:
 {{
-    "canonical": "Corrected Skill Name",
+    "canonical": "Corrected Name",
     "category": "category name",
     "confidence": 95
 }}
 
-Example:
-Input: "machien lerning"
-Output: {{"canonical": "Machine Learning", "category": "domain knowledge", "confidence": 90}}
+Examples:
+- Input: "anglais" → {{"canonical": "Anglais", "category": "Langues", "confidence": 100}}
+- Input: "teamwork" → {{"canonical": "Teamwork", "category": "Compétences comportementales", "confidence": 100}}
+- Input: "machien lerning" → {{"canonical": "Machine Learning", "category": "Domaines d'expertise", "confidence": 90}}
+- Input: "python" → {{"canonical": "Python", "category": "Langages de programmation", "confidence": 100}}
 
 Now classify: "{skill_input}"
 """
@@ -188,16 +202,11 @@ def process_skill(skill_input):
     Main processing function that uses LLM to classify skills.
     """
     if not skill_input or not skill_input.strip():
-        return json.dumps({
-            "error": "Please enter a skill to analyze"
-        }, ensure_ascii=False, indent=2)
+        return "Veuillez entrer une compétence à analyser."
     
     # Check if API key is configured
     if not API_KEY or API_KEY == "VOTRE_API_KEY_ICI":
-        return json.dumps({
-            "error": "API key not configured",
-            "help": f"Configure your API key in app.py or set LLM_API_KEY environment variable. Get key from: {LLM_PROVIDERS[PROVIDER]['docs']}"
-        }, ensure_ascii=False, indent=2)
+        return "❌ API key non configurée"
     
     # Normalize the input
     normalized = normalize_skill(skill_input)
@@ -210,65 +219,114 @@ def process_skill(skill_input):
     
     # Check for errors
     if "error" in llm_result:
-        return json.dumps({
-            "error": llm_result["error"],
-            "detail": llm_result.get("detail", ""),
-            "input": skill_input,
-            "normalized": normalized
-        }, ensure_ascii=False, indent=2)
+        return f"❌ Erreur: {llm_result['error']}"
     
-    # Build final result
-    result = {
-        "input": skill_input,
-        "normalized": normalized,
-        "canonical": llm_result.get("canonical", skill_input),
-        "category": llm_result.get("category", "other"),
-        "confidence": llm_result.get("confidence", 0),
-        "note": f"Classified by {LLM_PROVIDERS[PROVIDER]['name']}"
-    }
+    # Return formatted response
+    category = llm_result.get("category", "Autre")
+    canonical = llm_result.get("canonical", skill_input)
+    confidence = llm_result.get("confidence", 0)
     
-    return json.dumps(result, ensure_ascii=False, indent=2)
+    return f"**{canonical}**\n\n📂 Catégorie : **{category}**\n🎯 Confiance : {confidence}%"
 
 # Create Gradio interface
 def create_interface():
     """Create and return the Gradio interface."""
     
-    with gr.Blocks(title="Skill Corrector & Classifier - Powered by LLM", theme=gr.themes.Soft()) as demo:
-        gr.Markdown("# 🎯 Skill Corrector & Classifier")
-        gr.Markdown(f"### Powered by AI - Using {LLM_PROVIDERS[PROVIDER]['name']}")
+    # Custom CSS - Minimal and centered
+    custom_css = """
+    /* Centered minimal design */
+    .gradio-container {
+        max-width: 600px !important;
+        margin: 0 auto !important;
+        padding: 40px 20px !important;
+    }
+    
+    /* Header */
+    .header-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #202124;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    
+    /* Input field */
+    .input-field textarea {
+        border: 2px solid #e0e0e0 !important;
+        border-radius: 12px !important;
+        padding: 16px 20px !important;
+        font-size: 16px !important;
+        transition: all 0.3s ease !important;
+        width: 100% !important;
+    }
+    
+    .input-field textarea:focus {
+        border-color: #10a37f !important;
+        outline: none !important;
+        box-shadow: 0 0 0 3px rgba(16, 163, 127, 0.1) !important;
+    }
+    
+    /* Output field */
+    .output-field textarea {
+        border: 2px solid #e0e0e0 !important;
+        border-radius: 12px !important;
+        padding: 16px 20px !important;
+        font-size: 18px !important;
+        font-weight: 600 !important;
+        text-align: center !important;
+        color: #10a37f !important;
+        background: #f9f9f9 !important;
+    }
+    
+    /* Button */
+    button {
+        background: #10a37f !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 12px !important;
+        padding: 14px 32px !important;
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        cursor: pointer !important;
+        width: 100% !important;
+        margin-top: 16px !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    button:hover {
+        background: #0e8c6d !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 12px rgba(16, 163, 127, 0.3) !important;
+    }
+    
+    /* Remove footer */
+    footer {display: none !important;}
+    """
+    
+    with gr.Blocks(title="Skill Classifier") as demo:
         
-        with gr.Row():
-            with gr.Column():
-                skill_input = gr.Textbox(
-                    label="Enter a skill to analyze",
-                    placeholder="e.g., Docker, travail d'equipe, machien lerning, kubernete...",
-                    lines=2,
-                    scale=3
-                )
-                
-                submit_btn = gr.Button("🚀 Analyze Skill", variant="primary", size="lg")
+        # Header
+        gr.Markdown("## 🎯 Skill Classifier AI", elem_classes="header-title")
         
-        with gr.Row():
-            output = gr.JSON(label="Analysis Result", scale=2)
+        # Input
+        skill_input = gr.Textbox(
+            label="",
+            placeholder="Entrez une compétence...",
+            lines=2,
+            show_label=False,
+            elem_classes="input-field"
+        )
         
-        # Examples
-        gr.Examples(
-            examples=[
-                ["Docker"],
-                ["travail d'équipe"],
-                ["machien lerning"],
-                ["kubernete"],
-                ["PYTHON"],
-                ["fibre optique"],
-                ["communicaton"],
-                ["spring boot"],
-                ["devloppement web"],
-                ["résolution de problémes"],
-                ["tensorflow"],
-                ["géstion de projet"]
-            ],
-            inputs=skill_input,
-            label="💡 Try these examples"
+        # Submit button
+        submit_btn = gr.Button("Classifier")
+        
+        # Output
+        output = gr.Textbox(
+            label="",
+            show_label=False,
+            interactive=False,
+            lines=3,
+            elem_classes="output-field"
         )
         
         # Event handlers
@@ -283,25 +341,10 @@ def create_interface():
             inputs=skill_input,
             outputs=output
         )
-        
-        # Footer info
-        gr.Markdown(
-            f"""
-            ---
-            **Categories:** {', '.join(CATEGORIES)}
-            
-            **How it works:** 
-            1. Enter a skill (supports French & English, handles typos and accents)
-            2. AI analyzes and corrects the skill
-            3. Get canonical name, category, and confidence score
-            
-            **Provider:** {LLM_PROVIDERS[PROVIDER]['name']}
-            """
-        )
     
-    return demo
+    return demo, custom_css
 
 # Launch the app
 if __name__ == "__main__":
-    demo = create_interface()
-    demo.launch()
+    demo, css = create_interface()
+    demo.launch(css=css)
