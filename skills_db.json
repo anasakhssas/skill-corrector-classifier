@@ -1,0 +1,334 @@
+{
+  "docker": {
+    "canonical": "Docker",
+    "category": "tool"
+  },
+  "kubernetes": {
+    "canonical": "Kubernetes",
+    "category": "tool"
+  },
+  "teamwork": {
+    "canonical": "Teamwork",
+    "category": "soft skill"
+  },
+  "travail d'equipe": {
+    "canonical": "Travail d'équipe",
+    "category": "soft skill"
+  },
+  "communication": {
+    "canonical": "Communication",
+    "category": "soft skill"
+  },
+  "leadership": {
+    "canonical": "Leadership",
+    "category": "soft skill"
+  },
+  "fibre optique": {
+    "canonical": "Fibre optique",
+    "category": "domain knowledge"
+  },
+  "python": {
+    "canonical": "Python",
+    "category": "programming language"
+  },
+  "java": {
+    "canonical": "Java",
+    "category": "programming language"
+  },
+  "spring boot": {
+    "canonical": "Spring Boot",
+    "category": "framework"
+  },
+  "fastapi": {
+    "canonical": "FastAPI",
+    "category": "framework"
+  },
+  "git": {
+    "canonical": "Git",
+    "category": "tool"
+  },
+  "sql": {
+    "canonical": "SQL",
+    "category": "programming language"
+  },
+  "data analysis": {
+    "canonical": "Data Analysis",
+    "category": "hard skill"
+  },
+  "machine learning": {
+    "canonical": "Machine Learning",
+    "category": "domain knowledge"
+  },
+  "prompt engineering": {
+    "canonical": "Prompt Engineering",
+    "category": "hard skill"
+  },
+  "javascript": {
+    "canonical": "JavaScript",
+    "category": "programming language"
+  },
+  "typescript": {
+    "canonical": "TypeScript",
+    "category": "programming language"
+  },
+  "react": {
+    "canonical": "React",
+    "category": "framework"
+  },
+  "vue": {
+    "canonical": "Vue.js",
+    "category": "framework"
+  },
+  "angular": {
+    "canonical": "Angular",
+    "category": "framework"
+  },
+  "django": {
+    "canonical": "Django",
+    "category": "framework"
+  },
+  "flask": {
+    "canonical": "Flask",
+    "category": "framework"
+  },
+  "node.js": {
+    "canonical": "Node.js",
+    "category": "framework"
+  },
+  "postgresql": {
+    "canonical": "PostgreSQL",
+    "category": "tool"
+  },
+  "mongodb": {
+    "canonical": "MongoDB",
+    "category": "tool"
+  },
+  "redis": {
+    "canonical": "Redis",
+    "category": "tool"
+  },
+  "aws": {
+    "canonical": "AWS",
+    "category": "tool"
+  },
+  "azure": {
+    "canonical": "Azure",
+    "category": "tool"
+  },
+  "gcp": {
+    "canonical": "Google Cloud Platform",
+    "category": "tool"
+  },
+  "terraform": {
+    "canonical": "Terraform",
+    "category": "tool"
+  },
+  "ansible": {
+    "canonical": "Ansible",
+    "category": "tool"
+  },
+  "jenkins": {
+    "canonical": "Jenkins",
+    "category": "tool"
+  },
+  "gitlab ci": {
+    "canonical": "GitLab CI",
+    "category": "tool"
+  },
+  "github actions": {
+    "canonical": "GitHub Actions",
+    "category": "tool"
+  },
+  "problem solving": {
+    "canonical": "Problem Solving",
+    "category": "soft skill"
+  },
+  "resolution de problemes": {
+    "canonical": "Résolution de problèmes",
+    "category": "soft skill"
+  },
+  "pensee critique": {
+    "canonical": "Pensée critique",
+    "category": "soft skill"
+  },
+  "critical thinking": {
+    "canonical": "Critical Thinking",
+    "category": "soft skill"
+  },
+  "gestion du temps": {
+    "canonical": "Gestion du temps",
+    "category": "soft skill"
+  },
+  "time management": {
+    "canonical": "Time Management",
+    "category": "soft skill"
+  },
+  "adaptabilite": {
+    "canonical": "Adaptabilité",
+    "category": "soft skill"
+  },
+  "adaptability": {
+    "canonical": "Adaptability",
+    "category": "soft skill"
+  },
+  "creativite": {
+    "canonical": "Créativité",
+    "category": "soft skill"
+  },
+  "creativity": {
+    "canonical": "Creativity",
+    "category": "soft skill"
+  },
+  "deep learning": {
+    "canonical": "Deep Learning",
+    "category": "domain knowledge"
+  },
+  "natural language processing": {
+    "canonical": "Natural Language Processing",
+    "category": "domain knowledge"
+  },
+  "computer vision": {
+    "canonical": "Computer Vision",
+    "category": "domain knowledge"
+  },
+  "nlp": {
+    "canonical": "Natural Language Processing",
+    "category": "domain knowledge"
+  },
+  "devops": {
+    "canonical": "DevOps",
+    "category": "domain knowledge"
+  },
+  "agile": {
+    "canonical": "Agile",
+    "category": "hard skill"
+  },
+  "scrum": {
+    "canonical": "Scrum",
+    "category": "hard skill"
+  },
+  "kanban": {
+    "canonical": "Kanban",
+    "category": "hard skill"
+  },
+  "rest api": {
+    "canonical": "REST API",
+    "category": "hard skill"
+  },
+  "graphql": {
+    "canonical": "GraphQL",
+    "category": "tool"
+  },
+  "microservices": {
+    "canonical": "Microservices",
+    "category": "domain knowledge"
+  },
+  "cybersecurite": {
+    "canonical": "Cybersécurité",
+    "category": "domain knowledge"
+  },
+  "cybersecurity": {
+    "canonical": "Cybersecurity",
+    "category": "domain knowledge"
+  },
+  "reseau": {
+    "canonical": "Réseau",
+    "category": "domain knowledge"
+  },
+  "networking": {
+    "canonical": "Networking",
+    "category": "domain knowledge"
+  },
+  "linux": {
+    "canonical": "Linux",
+    "category": "tool"
+  },
+  "bash": {
+    "canonical": "Bash",
+    "category": "programming language"
+  },
+  "powershell": {
+    "canonical": "PowerShell",
+    "category": "programming language"
+  },
+  "c++": {
+    "canonical": "C++",
+    "category": "programming language"
+  },
+  "c#": {
+    "canonical": "C#",
+    "category": "programming language"
+  },
+  "go": {
+    "canonical": "Go",
+    "category": "programming language"
+  },
+  "rust": {
+    "canonical": "Rust",
+    "category": "programming language"
+  },
+  "kotlin": {
+    "canonical": "Kotlin",
+    "category": "programming language"
+  },
+  "swift": {
+    "canonical": "Swift",
+    "category": "programming language"
+  },
+  "r": {
+    "canonical": "R",
+    "category": "programming language"
+  },
+  "matlab": {
+    "canonical": "MATLAB",
+    "category": "programming language"
+  },
+  "tableau": {
+    "canonical": "Tableau",
+    "category": "tool"
+  },
+  "power bi": {
+    "canonical": "Power BI",
+    "category": "tool"
+  },
+  "excel": {
+    "canonical": "Microsoft Excel",
+    "category": "tool"
+  },
+  "gestion de projet": {
+    "canonical": "Gestion de projet",
+    "category": "hard skill"
+  },
+  "project management": {
+    "canonical": "Project Management",
+    "category": "hard skill"
+  },
+  "intelligence artificielle": {
+    "canonical": "Intelligence artificielle",
+    "category": "domain knowledge"
+  },
+  "artificial intelligence": {
+    "canonical": "Artificial Intelligence",
+    "category": "domain knowledge"
+  },
+  "blockchain": {
+    "canonical": "Blockchain",
+    "category": "domain knowledge"
+  },
+  "apache spark": {
+    "canonical": "Apache Spark",
+    "category": "tool"
+  },
+  "hadoop": {
+    "canonical": "Hadoop",
+    "category": "tool"
+  },
+  "kafka": {
+    "canonical": "Apache Kafka",
+    "category": "tool"
+  },
+  "elasticsearch": {
+    "canonical": "Elasticsearch",
+    "category": "tool"
+  }
+}
