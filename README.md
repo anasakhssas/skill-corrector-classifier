@@ -105,17 +105,9 @@ L'application démarrera automatiquement !
 - **Python 3.8+**
 - **Librairies:** requests, unidecode, python-dotenv
 
-## 📝 License
-
-MIT License - Libre d'utilisation et de modification
-
 ## 🤝 Contribution
 
 Les contributions sont les bienvenues ! N'hésitez pas à :
 - Signaler des bugs
 - Suggérer des fonctionnalités
 - Améliorer les prompts pour une meilleure précision
-
----
-
-**Made with ❤️ and AI**
